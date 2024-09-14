@@ -4,21 +4,29 @@ const nodeExternals = require('webpack-node-externals');
 module.exports = {
   mode: 'production',
   target: 'node',
-  entry: './server/index.ts',  // サーバーのエントリーポイント
+  entry: './server/index.ts',
   output: {
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'docs'),
     filename: 'server.js'
   },
   resolve: {
-    extensions: ['.ts', '.js']
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+    }
   },
-  externals: [nodeExternals()],  // node_modulesを除外
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        use: 'ts-loader',
-        exclude: /node_modules/
+        test: /\.(ts|tsx|js|jsx)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
+          }
+        }
       }
     ]
   }

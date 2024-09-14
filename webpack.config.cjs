@@ -34,5 +34,6 @@ module.exports = {
     static: path.join(__dirname, 'docs'),
     compress: true,
     port: 3000,
+    historyApiFallback: true,
   },
 };
